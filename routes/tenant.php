@@ -4,7 +4,6 @@ use App\Http\Controllers\Tenant\AuthController;
 use App\Http\Controllers\Tenant\HomeController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::domain('{tenant}.pharmacy.local')->middleware(['tenant'])->group(function () {
     // Tenant login
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('tenant.login');

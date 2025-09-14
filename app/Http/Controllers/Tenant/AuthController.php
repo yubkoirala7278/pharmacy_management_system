@@ -29,7 +29,6 @@ class AuthController extends Controller
             return redirect()->intended('/tenant/dashboard');
         }
 
-
         return back()->withErrors([
             'email' => 'Invalid credentials.',
         ])->onlyInput('email');
@@ -42,6 +41,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('tenant.login');
+       return redirect()->intended('/login');
     }
 }
