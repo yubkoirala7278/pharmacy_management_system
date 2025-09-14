@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TenantAuthController extends Controller
+
+class AuthController extends Controller
 {
     // Show tenant login form
     public function showLoginForm()
     {
-        return view('auth.tenant-login');
+        return view('tenants.auth.login');
     }
 
     // Handle tenant login

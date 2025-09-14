@@ -1,1 +1,0 @@
-This is tenant db page

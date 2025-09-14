@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class MasterAuthController extends Controller
+class AuthController extends Controller
 {
     // Show login form
     public function showLoginForm()
     {
-        return view('auth.master-login');
+        return view('admin.auth.login');
     }
 
     // Handle login
