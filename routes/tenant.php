@@ -9,13 +9,13 @@ Route::domain('{tenant}.pharmacy.local')
     ->name('tenant.')
     ->group(function () {
 
-        // Guest routes (login page)
+        // Guest routes
         Route::middleware(['tenant.guest'])->group(function () {
             Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
             Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
         });
 
-        // Authenticated tenant routes (dashboard, logout)
+        // Protected Routes
         Route::middleware(['tenant.auth'])->group(function () {
             Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
             Route::get('/tenant/dashboard', [HomeController::class, 'index'])->name('dashboard');
