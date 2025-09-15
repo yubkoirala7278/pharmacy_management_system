@@ -14,6 +14,8 @@ class User extends Authenticatable
 
     protected $connection = 'tenant'; // dynamic tenant DB
 
+    protected $table = 'users'; // tenant users table
+
     protected $fillable = [
         'name',
         'email',

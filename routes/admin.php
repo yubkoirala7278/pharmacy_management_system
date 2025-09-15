@@ -5,17 +5,21 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\TenantController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-// Protected master routes
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+// guest routes
+Route::middleware(['guest'])->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
 });
 
 
-Route::middleware(['auth', 'role:super_admin'])->group(function () {
-    Route::get('/tenants/create', [TenantController::class, 'create'])->name('tenants.create');
-    Route::post('/tenants', [TenantController::class, 'store'])->name('tenants.store');
+// protected routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::middleware(['role:super_admin'])->group(function () {
+        // tenant
+        Route::get('/tenants/create', [TenantController::class, 'create'])->name('tenants.create');
+        Route::post('/tenants', [TenantController::class, 'store'])->name('tenants.store');
+    });
 });

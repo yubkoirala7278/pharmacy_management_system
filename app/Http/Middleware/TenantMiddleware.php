@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -25,6 +26,9 @@ class TenantMiddleware
 
         DB::purge('tenant');
         DB::reconnect('tenant');
+
+        // Make tenant globally accessible
+        app()->instance('currentTenant', $tenant);
 
         return $next($request);
     }
