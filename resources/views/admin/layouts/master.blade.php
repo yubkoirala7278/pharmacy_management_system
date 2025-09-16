@@ -202,8 +202,8 @@
                             id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
                             <img class="rounded-circle header-profile-user"
-                                src="{{ asset('assets/images/admin.png') }}" alt="Header Avatar">
-                            <span class="d-none d-xl-inline-block ms-1 fw-medium">Shawn L.</span>
+                                src="{{ asset('assets/images/admin.jpg') }}" alt="Header Avatar">
+                            <span class="d-none d-xl-inline-block ms-1 fw-medium">{{Auth::user()->name}}</span>
                             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
@@ -240,9 +240,16 @@
                         <li class="menu-title" data-key="t-menu">Menu</li>
 
                         <li>
-                            <a href="/index.html">
+                            <a href="{{route('dashboard')}}">
                                 <i data-feather="home"></i>
                                 <span data-key="t-dashboard">Dashboard</span>
+                            </a>
+                        </li>
+
+                         <li>
+                            <a href="{{route('admin.roles.index')}}">
+                                 <i data-feather="shield"></i>
+                                <span data-key="t-dashboard">Roles</span>
                             </a>
                         </li>
 

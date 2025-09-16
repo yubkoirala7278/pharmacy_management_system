@@ -6,6 +6,5 @@ Here will be the content
 
 @push('script')
     <script>
-        alert(1)
     </script>
 @endpush

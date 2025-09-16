@@ -22,7 +22,7 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 // Redirect master/admin users to dashboard
-                return redirect('/dashboard');
+                return redirect('/admin/dashboard');
             }
         }
 
