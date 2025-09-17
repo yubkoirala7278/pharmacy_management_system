@@ -42,7 +42,7 @@
                 <div class="d-flex gap-2 mt-3">
                     <a href="{{ route('admin.users.index') }}" class="btn btn-secondary fw-medium"
                         style="background-color: #6e707e; border-color: #6e707e;">Back</a>
-                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-primary fw-medium"
+                    <a href="{{ route('admin.users.edit', $user->slug) }}" class="btn btn-primary fw-medium"
                         style="background-color: #5156BE; border-color: #5156BE;">Edit</a>
                 </div>
             </div>

@@ -35,9 +35,9 @@ class UserController extends Controller
                     return $badges ?: '<span class="text-muted">No roles</span>';
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('admin.users.show', $row->id) . '" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
-                    $btn .= ' <a href="' . route('admin.users.edit', $row->id) . '" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>';
-                    $btn .= ' <button class="btn btn-danger btn-sm delete-user" data-id="' . $row->id . '"><i class="fas fa-trash"></i></button>';
+                    $btn = '<a href="' . route('admin.users.show', $row->slug) . '" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
+                    $btn .= ' <a href="' . route('admin.users.edit', $row->slug) . '" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>';
+                    $btn .= ' <button class="btn btn-danger btn-sm delete-user" data-slug="' . $row->slug . '"><i class="fas fa-trash"></i></button>';
                     return $btn;
                 })
                 ->rawColumns(['roles', 'action'])

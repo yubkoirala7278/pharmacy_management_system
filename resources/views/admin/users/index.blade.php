@@ -20,7 +20,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th scope="col" class="text-center fw-semibold"
-                                    style="color: #5156BE; font-size: 0.85rem;">ID</th>
+                                    style="color: #5156BE; font-size: 0.85rem;">S/N</th>
                                 <th scope="col" class="fw-semibold" style="color: #5156BE; font-size: 0.85rem;">Name</th>
                                 <th scope="col" class="fw-semibold" style="color: #5156BE; font-size: 0.85rem;">Email
                                 </th>
@@ -158,7 +158,7 @@
             });
 
             $(document).on('click', '.delete-user', function() {
-                let userId = $(this).data('id');
+                let userSlug = $(this).data('slug');
                 Swal.fire({
                     title: 'Are you sure?',
                     html: `You are about to delete this user. This action cannot be undone.`,
@@ -173,7 +173,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ url('admin/users') }}/" + userId,
+                            url: "{{ url('admin/users') }}/" + userSlug,
                             type: 'DELETE',
                             data: {
                                 _token: "{{ csrf_token() }}"

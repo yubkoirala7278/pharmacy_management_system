@@ -7,7 +7,7 @@
                 <h3 class="card-title mb-0 fw-semibold text-white">Edit User</h3>
             </div>
             <div class="card-body p-4">
-                <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
+                <form action="{{ route('admin.users.update', $user->slug) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="mb-4">

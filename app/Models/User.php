@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Helpers\SlugHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,10 +23,35 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'slug',
         'name',
         'email',
         'password',
     ];
+
+    // generate slug
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            if (empty($user->slug)) {
+                $user->slug = SlugHelper::createSlug(new static, $user->name);
+            }
+        });
+
+        static::updating(function ($user) {
+            if ($user->isDirty('name')) { // regenerate slug only if name changes
+                $user->slug = SlugHelper::createSlug(new static, $user->name);
+            }
+        });
+    }
+
+    // using slug instead of id
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     /**
      * The attributes that should be hidden for serialization.
