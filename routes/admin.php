@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TenantController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 // guest routes
@@ -23,6 +24,7 @@ Route::middleware(['auth'])->group(function () {
         ->middleware(['role:super_admin'])
         ->group(function () {
             Route::resource('roles', RoleController::class);
+            Route::resource('users', UserController::class);
             // tenant
             Route::get('/tenants/create', [TenantController::class, 'create'])->name('tenants.create');
             Route::post('/tenants', [TenantController::class, 'store'])->name('tenants.store');

@@ -253,6 +253,13 @@
                             </a>
                         </li>
 
+                        <li>
+                            <a href="{{route('admin.users.index')}}">
+                                 <i data-feather="user"></i>
+                                <span data-key="t-dashboard">Users</span>
+                            </a>
+                        </li>
+
                     </ul>
                 </div>
                 <!-- Sidebar -->

@@ -5,27 +5,28 @@
         <div class="card shadow-sm border-0 rounded-3">
             <div class="card-header border-0 rounded-top-3 py-3" style="background-color: #5156BE;">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h3 class="card-title mb-0 fw-semibold text-white">Roles Management</h3>
+                    <h3 class="card-title mb-0 fw-semibold text-white">Users Management</h3>
                     <div class="card-tools">
-                        <a href="{{ route('admin.roles.create') }}" class="btn btn-light btn-sm text-primary fw-medium"
+                        <a href="{{ route('admin.users.create') }}" class="btn btn-light btn-sm text-primary fw-medium"
                             style="color: #5156BE !important;">
-                            <i class="fas fa-plus me-1"></i> Create New Role
+                            <i class="fas fa-plus me-1"></i> Create New User
                         </a>
                     </div>
                 </div>
             </div>
             <div class="card-body p-4">
                 <div class="table-responsive">
-                    <table id="roles-table" class="table table-hover table-bordered align-middle" style="width:100%">
+                    <table id="users-table" class="table table-hover table-bordered align-middle" style="width:100%">
                         <thead class="table-light">
                             <tr>
-                                <th scope="col" class="text-center  fw-semibold"
+                                <th scope="col" class="text-center fw-semibold"
                                     style="color: #5156BE; font-size: 0.85rem;">ID</th>
-                                <th scope="col" class=" fw-semibold" style="color: #5156BE; font-size: 0.85rem;">
-                                    Name</th>
-                                <th scope="col" class=" fw-semibold" style="color: #5156BE; font-size: 0.85rem;">
-                                    Permissions</th>
-                                <th scope="col" class="text-center  fw-semibold"
+                                <th scope="col" class="fw-semibold" style="color: #5156BE; font-size: 0.85rem;">Name</th>
+                                <th scope="col" class="fw-semibold" style="color: #5156BE; font-size: 0.85rem;">Email
+                                </th>
+                                <th scope="col" class="fw-semibold" style="color: #5156BE; font-size: 0.85rem;">Roles
+                                </th>
+                                <th scope="col" class="text-center fw-semibold"
                                     style="color: #5156BE; font-size: 0.85rem;">Actions</th>
                             </tr>
                         </thead>
@@ -98,13 +99,12 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Initialize DataTable
-            var table = $('#roles-table').DataTable({
+            var table = $('#users-table').DataTable({
                 processing: true,
                 serverSide: true,
-                searchDelay: 2000,
+                searchDelay: 1000,
                 ajax: {
-                    url: "{{ route('admin.roles.index') }}",
+                    url: "{{ route('admin.users.index') }}",
                     data: function(d) {
                         d.search = $('input[type="search"]').val();
                     }
@@ -119,44 +119,17 @@
                     {
                         data: 'name',
                         name: 'name',
-                        render: function(data, type, row) {
+                        render: function(data) {
                             return '<span class="fw-semibold">' + data + '</span>';
                         }
                     },
                     {
-                        data: 'permissions',
-                        name: 'permissions',
-                        orderable: false,
-                        searchable: false,
-                        render: function(data, type, row) {
-                            if (Array.isArray(data) && data.length > 0) {
-                                let badges = '';
-                                for (let i = 0; i < Math.min(data.length, 3); i++) {
-                                    badges += '<span class="badge badge-permission">' + data[i]
-                                        .name + '</span>';
-                                }
-                                if (data.length > 3) {
-                                    badges +=
-                                        '<span class="badge" style="background-color: rgb(78, 115, 223,0.7); color: white;">+' +
-                                        (data.length - 3) + ' more</span>';
-                                }
-                                return badges;
-                            } else if (typeof data === 'string' && data.length > 0) {
-                                const permissions = data.split(',');
-                                let badges = '';
-                                for (let i = 0; i < Math.min(permissions.length, 3); i++) {
-                                    badges += '<span class="badge badge-permission">' + permissions[
-                                        i].trim() + '</span>';
-                                }
-                                if (permissions.length > 3) {
-                                    badges +=
-                                        '<span class="badge" style="background-color: rgb(78, 115, 223,0.7); color: white;">+' +
-                                        (permissions.length - 3) + ' more</span>';
-                                }
-                                return badges;
-                            }
-                            return '<span class="text-muted">No permissions</span>';
-                        }
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'roles',
+                        name: 'roles'
                     },
                     {
                         data: 'action',
@@ -164,14 +137,14 @@
                         orderable: false,
                         searchable: false,
                         className: 'text-center action-buttons'
-                    },
+                    }
                 ],
                 order: [
                     [1, 'asc']
                 ],
                 language: {
                     search: "",
-                    searchPlaceholder: "Search roles...",
+                    searchPlaceholder: "Search users...",
                     lengthMenu: "Show _MENU_ entries",
                     info: "Showing _START_ to _END_ of _TOTAL_ entries",
                     paginate: {
@@ -184,13 +157,11 @@
                 }
             });
 
-            // Delete role functionality
-            $(document).on('click', '.delete-role', function() {
-                let roleId = $(this).data('id');
-
+            $(document).on('click', '.delete-user', function() {
+                let userId = $(this).data('id');
                 Swal.fire({
                     title: 'Are you sure?',
-                    html: `You are about to delete this role. This action cannot be undone.`,
+                    html: `You are about to delete this user. This action cannot be undone.`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#e74a3b',
@@ -202,7 +173,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ url('admin/roles') }}/" + roleId,
+                            url: "{{ url('admin/users') }}/" + userId,
                             type: 'DELETE',
                             data: {
                                 _token: "{{ csrf_token() }}"

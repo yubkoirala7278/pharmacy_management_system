@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreRoleRequest;
+use App\Http\Requests\Admin\UpdateRoleRequest;
 use App\Services\Admin\RoleService;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
@@ -54,20 +56,14 @@ class RoleController extends Controller
         return view('admin.roles.create', compact('permissions'));
     }
 
-    public function store(Request $request)
+    public function store(StoreRoleRequest $request)
     {
-        $request->validate([
-            'name' => 'required|unique:roles,name',
-            'permissions' => 'nullable|array',
-            'permissions.*' => 'exists:permissions,id'
-        ]);
-
         try {
             $this->roleService->createRole($request->all());
 
-            return redirect()->route('admin.roles.index')->with('success','Role created successfully!');
+            return redirect()->route('admin.roles.index')->with('success', 'Role created successfully!');
         } catch (\Exception $e) {
-            return back()->with('error','Error creating role');
+            return back()->with('error', 'Error creating role');
         }
     }
 
@@ -80,7 +76,7 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         if ($role->name === 'super_admin') {
-            return redirect()->route('admin.roles.index')->with('error','Super Admin role cannot be edited.');
+            return redirect()->route('admin.roles.index')->with('error', 'Super Admin role cannot be edited.');
         }
 
         $permissions = $this->roleService->getAllPermissionsGrouped();
@@ -89,24 +85,19 @@ class RoleController extends Controller
         return view('admin.roles.edit', compact('role', 'permissions', 'rolePermissions'));
     }
 
-    public function update(Request $request, Role $role)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
         if ($role->name === 'super_admin') {
-            return redirect()->route('admin.roles.index')->with('error','Super Admin role cannot be updated.');
+            return redirect()->route('admin.roles.index')
+                ->with('error', 'Super Admin role cannot be updated.');
         }
 
-        $request->validate([
-            'name' => 'required|unique:roles,name,' . $role->id,
-            'permissions' => 'nullable|array',
-            'permissions.*' => 'exists:permissions,id'
-        ]);
-
         try {
-            $this->roleService->updateRole($role, $request->all());
+            $this->roleService->updateRole($role, $request->validated());
 
-            return redirect()->route('admin.roles.index')->with('success','Role updated successfully!');
+            return redirect()->route('admin.roles.index')->with('success', 'Role updated successfully!');
         } catch (\Exception $e) {
-            return back()->with('error','Error updating role!');
+            return back()->with('error', 'Error updating role!');
         }
     }
 
