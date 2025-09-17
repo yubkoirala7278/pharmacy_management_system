@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreRoleRequest;
 use App\Http\Requests\Admin\UpdateRoleRequest;
 use App\Services\Admin\RoleService;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -34,11 +34,11 @@ class RoleController extends Controller
                     return $badges;
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="' . route('admin.roles.show', $row->id) . '" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
-                    $btn .= ' <a href="' . route('admin.roles.edit', $row->id) . '" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>';
+                    $btn = '<a href="' . route('admin.roles.show', $row->slug) . '" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
+                    $btn .= ' <a href="' . route('admin.roles.edit', $row->slug) . '" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>';
 
                     if ($row->name !== 'admin') {
-                        $btn .= ' <button class="btn btn-danger btn-sm delete-role" data-id="' . $row->id . '"><i class="fas fa-trash"></i></button>';
+                        $btn .= ' <button class="btn btn-danger btn-sm delete-role" data-slug="' . $row->slug . '"><i class="fas fa-trash"></i></button>';
                     }
 
                     return $btn;

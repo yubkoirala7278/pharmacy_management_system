@@ -20,7 +20,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th scope="col" class="text-center  fw-semibold"
-                                    style="color: #5156BE; font-size: 0.85rem;">ID</th>
+                                    style="color: #5156BE; font-size: 0.85rem;">S/N</th>
                                 <th scope="col" class=" fw-semibold" style="color: #5156BE; font-size: 0.85rem;">
                                     Name</th>
                                 <th scope="col" class=" fw-semibold" style="color: #5156BE; font-size: 0.85rem;">
@@ -186,7 +186,7 @@
 
             // Delete role functionality
             $(document).on('click', '.delete-role', function() {
-                let roleId = $(this).data('id');
+                let roleSlug = $(this).data('slug');
 
                 Swal.fire({
                     title: 'Are you sure?',
@@ -202,7 +202,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ url('admin/roles') }}/" + roleId,
+                            url: "{{ url('admin/roles') }}/" + roleSlug,
                             type: 'DELETE',
                             data: {
                                 _token: "{{ csrf_token() }}"

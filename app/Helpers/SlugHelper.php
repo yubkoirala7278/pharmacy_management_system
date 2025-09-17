@@ -16,7 +16,7 @@ class SlugHelper
         // find unique
         $i = 1;
         while ($model->newQuery()->where($slugField, $slug)->exists()) {
-            $slug = $original . '-' . $i++;
+            $slug = $original . '_' . $i++;
         }
 
         return $slug;
